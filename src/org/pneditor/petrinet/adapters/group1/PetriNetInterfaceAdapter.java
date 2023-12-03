@@ -160,7 +160,7 @@ public class PetriNetInterfaceAdapter extends PetriNetInterface {
     public boolean isEnabled(AbstractTransition transition) throws ResetArcMultiplicityException {
         for (TransitionAdapter t : transitions) {
             if (t.equals(transition)) {
-                return t.isEnabled();
+                return t.getIsFireable();
             } else {
                 return false;
             }

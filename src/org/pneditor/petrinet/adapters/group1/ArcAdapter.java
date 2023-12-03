@@ -81,9 +81,16 @@ public class ArcAdapter extends AbstractArc {
         if (this.startPlace != null || this.startTransition != null) {
             throw new ExistingObjectException();
         } else if (start.getClass() == PlaceAdapter.class) {
-            this.startPlace = (PlaceAdapter) start;
+            PlaceAdapter startPlaceAdapter = (PlaceAdapter) start;
+            this.startPlace = startPlaceAdapter;
+            startPlaceAdapter.setOutArc(this);
+            this.arc.setStart(startPlaceAdapter.getPlace());
+
         } else if (start.getClass() == TransitionAdapter.class) {
-            this.startTransition = (TransitionAdapter) start;
+            TransitionAdapter startTransitionAdapter = (TransitionAdapter) start;
+            this.startTransition = startTransitionAdapter;
+            startTransitionAdapter.addOutArc(this);
+            this.arc.setStart(startTransitionAdapter.getTransition());
         }
     }
 
@@ -97,9 +104,15 @@ public class ArcAdapter extends AbstractArc {
         if (this.endPlace != null || this.endTransition != null) {
             throw new ExistingObjectException();
         } else if (end.getClass() == PlaceAdapter.class) {
-            this.endPlace = (PlaceAdapter) end;
+            PlaceAdapter endPlaceAdapter = (PlaceAdapter) end;
+            this.endPlace = endPlaceAdapter;
+            this.arc.setEnd(endPlaceAdapter.getPlace());
+            endPlaceAdapter.setInArc(this);
         } else if (end.getClass() == TransitionAdapter.class) {
-            this.endTransition = (TransitionAdapter) end;
+            TransitionAdapter endTransitionAdapter = (TransitionAdapter) end;
+            this.endTransition = endTransitionAdapter;
+            this.arc.setEnd(endTransitionAdapter.getTransition());
+            endTransitionAdapter.addInArc(this);
         }
     }
 

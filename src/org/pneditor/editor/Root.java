@@ -171,7 +171,7 @@ public final class Root implements WindowListener, ListSelectionListener, Select
 		return this.graphicPetriNet.getPetriNet();
 	}
 
-	private String model = "initial";
+	private String model = "group1";
 
 	public String getCurrentModel() {
 		return this.model;

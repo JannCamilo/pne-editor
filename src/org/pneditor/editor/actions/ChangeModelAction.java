@@ -48,7 +48,7 @@ public class ChangeModelAction extends AbstractAction {
 	private final String model;
 
 	private final static String MODEL_PATH = "org.pneditor.petrinet.adapters.";
-	private final static String ADAPTER_PATH = ".PetriNetAdapter";
+	private final static String ADAPTER_PATH = ".PetriNetInterfaceAdapter";
 
 	public ChangeModelAction(final Root root, final String model) {
 		super();

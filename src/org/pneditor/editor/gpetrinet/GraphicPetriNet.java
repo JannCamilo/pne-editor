@@ -49,8 +49,8 @@ public class GraphicPetriNet {
 	private Point viewTranslation = new Point(0, 0);
 	private PetriNetInterface petriNet;
 	private final String modelPath = "org.pneditor.petrinet.adapters.";
-	private String model = "initial";
-	private final String modelAdapterPath = ".PetriNetAdapter";
+	private String model = "group1";
+	private final String modelAdapterPath = ".PetriNetInterfaceAdapter";
 
 	/**
 	 * Constructor. Creates a new Petri net with empty root subnet.

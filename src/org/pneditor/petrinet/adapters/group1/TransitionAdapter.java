@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.pneditor.petrinet.AbstractTransition;
 import org.pneditor.petrinet.models.group1.NoExistingObjectException;
+import org.pneditor.petrinet.models.group1.Place;
 import org.pneditor.petrinet.models.group1.Transition;
 
 /**
@@ -14,6 +15,9 @@ public class TransitionAdapter extends AbstractTransition {
 
     // The underlying Petri net transition
     private final Transition transition;
+    private ArrayList<ArcAdapter> inArcs = new ArrayList<ArcAdapter>();
+	private ArrayList<ArcAdapter> outArcs= new ArrayList<ArcAdapter>();
+	private boolean isFireble = false;
 
     /**
      * Constructor for TransitionAdapter. It creates an adapter for a Petri net transition based on the specified label.
@@ -24,7 +28,7 @@ public class TransitionAdapter extends AbstractTransition {
     public TransitionAdapter(String label) throws NoExistingObjectException {
         super(label);
         // Initializes the underlying Petri net transition with empty lists for input and output arcs
-        this.transition = new Transition(new ArrayList<>(), new ArrayList<>());
+        this.transition = new Transition();
     }
 
     /**
@@ -52,7 +56,10 @@ public class TransitionAdapter extends AbstractTransition {
      * @throws NoExistingObjectException If there is an issue firing the transition
      */
     public void fire() throws NoExistingObjectException {
-        this.transition.fire();
+        if (this.getIsFireable()) {
+            this.transition.fire();
+
+        }
     }
 
     /**
@@ -62,5 +69,39 @@ public class TransitionAdapter extends AbstractTransition {
      */
     public Transition getTransition() {
         return this.transition;
+    }
+
+	public void setInArcs(ArrayList<ArcAdapter> inArcs) {
+		this.inArcs = inArcs;
+	}
+	
+	public void setOutArcs(ArrayList<ArcAdapter> outArcs) {
+		this.outArcs = outArcs;
+	}
+	
+	public void addInArc(ArcAdapter inArc) {
+		this.inArcs.add(inArc);
+        this.transition.addInArc(inArc.getArc());
+	}
+	
+	public void addOutArc(ArcAdapter outArc) {
+		this.outArcs.add(outArc);
+        this.transition.addOutArc(outArc.getArc());
+	}
+	
+	public ArrayList<ArcAdapter> getInArcs() {
+		return this.inArcs;
+	}
+	
+	public ArrayList<ArcAdapter> getOutArcs() {
+		return this.outArcs;
+	}
+
+    public boolean getIsFireable() {
+        return this.isFireble;
+    }
+
+    public void setIsFireable(boolean isFireable) {
+        this.isFireble = isFireable;
     }
 }

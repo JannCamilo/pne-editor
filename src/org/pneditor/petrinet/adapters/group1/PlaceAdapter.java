@@ -1,6 +1,7 @@
 package org.pneditor.petrinet.adapters.group1;
 
 import org.pneditor.petrinet.AbstractPlace;
+import org.pneditor.petrinet.models.group1.NoExistingObjectException;
 import org.pneditor.petrinet.models.group1.Place;
 
 /**
@@ -11,6 +12,8 @@ public class PlaceAdapter extends AbstractPlace {
 
     // The underlying Petri net place
     private Place place;
+    private ArcAdapter inArc;
+    private ArcAdapter outArc;
 
     /**
      * Constructor for PlaceAdapter. It creates an adapter for a Petri net place based on the specified label.
@@ -46,6 +49,16 @@ public class PlaceAdapter extends AbstractPlace {
      */
     public void addToken() {
         place.setNbTokens(place.getNbTokens() + 1);
+        try {
+            TransitionAdapter endTransitionAdapter = (TransitionAdapter) outArc.getEnd();
+            if (this.getTokens() < outArc.getMultiplicity()) {
+                endTransitionAdapter.setIsFireable(false);
+            } else {
+                endTransitionAdapter.setIsFireable(true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -53,6 +66,16 @@ public class PlaceAdapter extends AbstractPlace {
      */
     public void removeToken() {
         place.setNbTokens(place.getNbTokens() - 1);
+        try {
+            TransitionAdapter endTransitionAdapter = (TransitionAdapter) outArc.getEnd();
+            if (this.getTokens() < outArc.getMultiplicity()) {
+                endTransitionAdapter.setIsFireable(false);
+            } else {
+                endTransitionAdapter.setIsFireable(true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -82,4 +105,22 @@ public class PlaceAdapter extends AbstractPlace {
     public boolean isPlace() {
         return true;
     }
+
+	public void setInArc(ArcAdapter inArc) {
+		this.inArc = inArc;
+        this.place.setInArc(inArc.getArc());
+	}
+	
+	public void setOutArc(ArcAdapter outArc) {
+		this.outArc = outArc;
+        this.place.setOutArc(outArc.getArc());
+	}
+	
+	public ArcAdapter getInArc() {
+		return this.inArc;
+	}
+	
+	public ArcAdapter getOutArc() {
+		return this.outArc;
+	}
 }
